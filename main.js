@@ -2,7 +2,7 @@
 * @Author: Administrator
 * @Date:   2018-11-20 16:37:02
 * @Last Modified by:   Administrator
-* @Last Modified time: 2018-11-24 17:48:01
+* @Last Modified time: 2018-11-24 18:25:06
 */
 // setup canvas
 var para = document.querySelector('p');
@@ -54,10 +54,6 @@ Ball.prototype.draw = function() {
 }
 
 
-//下面2行代码可以创造出一个小球
-// var testBall = new Ball(50, 100, 4, 4, 'blue', 10);
-// testBall.draw();
-
 Ball.prototype.update = function() {
   if ((this.x + this.size) >= width) {
     this.velX = -(this.velX);
@@ -104,7 +100,7 @@ EvilCircle.prototype.draw =function() {
   ctx.stroke();
 }
 
-
+//检测创建的
 EvilCircle.prototype.checkBounds = function() {
 	 if ((this.x + this.size) >= width) {
     this.x -= this.size;
@@ -123,7 +119,7 @@ EvilCircle.prototype.checkBounds = function() {
   }
 
 }
-
+//增加一个监听器，监听按下上下左右键，
 EvilCircle.prototype.setControls = function() {
 	//定义一个变量存储这个this，防止下面this指向的改变
 	var _this = this;
@@ -146,7 +142,6 @@ EvilCircle.prototype.collisionDetect = function() {
       var dx = this.x - balls[j].x;
       var dy = this.y - balls[j].y;
       var distance = Math.sqrt(dx * dx + dy * dy);
-//一旦相遇则更改颜色
       if (distance < this.size + balls[j].size) {
         balls[j].exists = false;
         count--;
@@ -157,6 +152,7 @@ EvilCircle.prototype.collisionDetect = function() {
 }
 // 存储小球的数组
 var balls = [];
+
 var evil = new EvilCircle(random(0,width), random(0,height), true);
 evil.setControls();
 
@@ -184,7 +180,6 @@ function loop() {
   }
 
   for (var i = 0; i < balls.length; i++) {
-  	// console.log(balls[i].exists);
   	if(balls[i].exists){
   	//画小球
     balls[i].draw();
@@ -193,11 +188,12 @@ function loop() {
     balls[i].collisionDetect();
     }
   }
-  //下一次重绘之前执行回调函数
-   evil.draw();
+  
+  evil.draw();
   evil.checkBounds();
   evil.collisionDetect();
+  //下一次重绘之前执行回调函数
   requestAnimationFrame(loop);
-  // loop();
+  
 }
 loop();
